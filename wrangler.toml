@@ -1,0 +1,9 @@
+name = "promotion-code-worker"
+main = "src/index.ts"
+compatibility_date = "2026-07-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "promotion-code-worker"
+database_id = "replace-with-d1-database-id"
+
