@@ -104,6 +104,33 @@ export async function getCampaignBySlug(db: D1Database, slug: string): Promise<C
   return row ? mapCampaign(row) : null;
 }
 
+export async function getActiveCampaignBySlug(db: D1Database, slug: string): Promise<CampaignWithInventory | null> {
+  const row = await db
+    .prepare(
+      `SELECT
+        c.*,
+        COUNT(pc.id) AS remaining_codes
+      FROM campaigns c
+      LEFT JOIN promotion_codes pc ON pc.campaign_id = c.id
+      WHERE c.slug = ?
+        AND c.status = 'active'
+      GROUP BY c.id
+      LIMIT 1`,
+    )
+    .bind(slug)
+    .first<CampaignRow & { remaining_codes: number }>();
+
+  if (!row) {
+    return null;
+  }
+
+  return {
+    ...mapCampaign(row),
+    totalCodes: row.remaining_codes,
+    remainingCodes: row.remaining_codes,
+  };
+}
+
 export async function listCampaigns(db: D1Database): Promise<CampaignWithInventory[]> {
   const result = await db
     .prepare(

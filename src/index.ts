@@ -4,6 +4,7 @@ import {
   cleanupExpiredClaims,
   createCampaign,
   findClaim,
+  getActiveCampaignBySlug,
   getCampaignBySlug,
   getCampaign,
   hashIp,
@@ -129,8 +130,7 @@ async function route(request: Request, env: Env): Promise<Response> {
 }
 
 async function getCampaignPage(env: Env, slug: string): Promise<CampaignWithInventory | null> {
-  const campaigns = await listActiveCampaigns(env.DB);
-  return campaigns.find((campaign) => campaign.slug === slug) ?? null;
+  return getActiveCampaignBySlug(env.DB, slug);
 }
 
 async function redeem(request: Request, env: Env, slug: string): Promise<Response> {

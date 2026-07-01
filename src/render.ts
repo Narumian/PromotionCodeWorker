@@ -34,7 +34,7 @@ export function renderLanding(campaign: CampaignWithInventory | null): Response 
           <p class="eyebrow">${escapeHtml(platformLabel(campaign.platform))}</p>
           <h1>${escapeHtml(campaign.name)}</h1>
           <p class="lede">${escapeHtml(campaign.description)}</p>
-          <div id="redeem-action">
+          <div id="redeem-action" ${campaign.remainingCodes <= 0 ? "hidden" : ""}>
             <div class="inventory">
               <span>${campaign.remainingCodes > 0 ? `${campaign.remainingCodes} codes available` : "No codes available"}</span>
             </div>
@@ -42,6 +42,9 @@ export function renderLanding(campaign: CampaignWithInventory | null): Response 
               <input type="hidden" name="campaignId" value="${escapeHtml(campaign.id)}">
               <button type="submit" ${campaign.remainingCodes <= 0 ? "disabled" : ""}>Redeem code</button>
             </form>
+          </div>
+          <div id="sold-out-message" class="cached" ${campaign.remainingCodes > 0 ? "hidden" : ""}>
+            <p class="notice">All codes have already been claimed.</p>
           </div>
           <div id="cached-claim" class="cached" hidden></div>
         </section>
@@ -53,6 +56,7 @@ export function renderLanding(campaign: CampaignWithInventory | null): Response 
         if (cached && target) {
           target.hidden = false;
           document.getElementById("redeem-action")?.setAttribute("hidden", "");
+          document.getElementById("sold-out-message")?.setAttribute("hidden", "");
           const note = document.createElement("p");
           note.className = "notice";
           note.textContent = "You already saved a code for this campaign.";
