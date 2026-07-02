@@ -5,5 +5,4 @@ compatibility_date = "2026-07-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "promotion-code-worker"
-database_id = "replace-with-d1-database-id"
-
+database_id = "ecf61ca9-d614-48d3-b947-f7f63148daa0"

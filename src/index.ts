@@ -208,7 +208,7 @@ function unauthorized(): Response {
     status: 401,
     headers: {
       "content-type": "text/plain; charset=utf-8",
-      "www-authenticate": 'Basic realm="Promotion Admin", Bearer',
+      "www-authenticate": 'Basic realm="Promotion Admin"',
     },
   });
 }

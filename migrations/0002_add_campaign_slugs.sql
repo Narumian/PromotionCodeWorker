@@ -1,10 +1,5 @@
--- Add public URL slugs for per-campaign pages.
-
-ALTER TABLE campaigns ADD COLUMN slug TEXT;
-
-UPDATE campaigns
-SET slug = id
-WHERE slug IS NULL OR slug = '';
-
-CREATE UNIQUE INDEX IF NOT EXISTS campaigns_slug_idx
-  ON campaigns (slug);
+-- Slugs are part of the initial schema.
+--
+-- This migration is intentionally a no-op so databases that already applied
+-- the older local migration history can keep the same migration sequence.
+SELECT 1;
